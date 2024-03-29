@@ -86,7 +86,7 @@ function RequestStatus() {
                     iconURL: client.user.displayAvatarURL(),
                 })
                 .setThumbnail(
-                    "https://gta5rp.hu/wp-content/uploads/2022/06/arrp.png"
+                    config.thumbnailIMG
                 )
                 .addFields(
                     {
