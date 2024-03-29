@@ -23,7 +23,9 @@ var statusChannel
 client.once(Events.ClientReady, readyClient => {
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
     statusChannel = client.channels.cache.get(config.statusChannel)
-    const Status = RequestStatus()
+
+    RequestStatus()
+    setInterval(RequestStatus, 60*1000);
 
 });
 
@@ -50,21 +52,11 @@ function RequestStatus() {
 
 
                 outputObject[curentObj["discord"]] = curentObj;
-                //console.log(curentObj);
-            }
-            outputObject["450716641542799370"] = {
-                name: 'Pankotai',
-                id: 6969,
-                license: 'fdf87583bf1bd0e31ef74123599b45ee81409cba',
-                xbl: '2535454665019967',
-                live: '844425536551330',
-                discord: '647900220302032932',
-                fivem: '4132200',
-                license2: 'fdf87583bf1bd0e31ef74123599b45ee81409cba'
             }
 
+
             var userIds = new Object();
-            client.guilds.cache.get('1176956382969344030').members.cache.map((member) => {
+            client.guilds.cache.get(config.guildID).members.cache.map((member) => {
                 if (!member.user.bot) {
                     userIds[member.id] = member.displayName;
                 }
