@@ -106,6 +106,12 @@ function RequestStatus() {
                             "```" + resources.length.toString() + "```",
                         inline: true,
                     },
+                )
+                .setTimestamp();
+
+                if(frakcioTagokKiiras.length != 0) {
+
+                serverStatusEmbed.addFields(
                     {
                         name:
                             "Online Frakció tagok: " +
@@ -116,8 +122,15 @@ function RequestStatus() {
                             frakcioTagokKiiras.join("\n") +
                             "```",
                     }
-                )
-                .setTimestamp();
+                )} else {
+                    serverStatusEmbed.addFields(
+                        {
+                            name: "Online frakció tagok:",
+                            value: "```Nincs online frakció tag!```",
+                            inline: true,
+                        }
+                    )
+                }
 
             statusChannel.messages.fetch({ limit: 10 }).then((messages) => {
                 if (messages.size === 0) {
