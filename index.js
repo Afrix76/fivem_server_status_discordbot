@@ -79,19 +79,17 @@ function RequestStatus() {
             }
 
             const serverStatusEmbed = new EmbedBuilder()
-                .setColor("#c50303")
+                .setColor(config.embedColor)
                 .setTitle("American Reality Roleplay Státusza")
                 .setAuthor({
                     name: client.user.displayName,
                     iconURL: client.user.displayAvatarURL(),
                 })
-                .setThumbnail(
-                    config.thumbnailIMG
-                )
+                .setThumbnail(config.thumbnailIMG)
                 .addFields(
                     {
                         name: "Státusz",
-                        value: "```" + (serverStatus ? "Online" : "Offline") + "```",
+                        value: "```" + (serverStatus ? "Online ✅" : "Offline ❌") + "```",
                         inline: true,
                     },
                     {
