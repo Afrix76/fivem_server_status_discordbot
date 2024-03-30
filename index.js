@@ -56,14 +56,19 @@ function RequestStatus() {
 
 
             var userIds = new Object();
+            var nonFractionuserIds = new Object();
             client.guilds.cache.get(config.guildID).members.cache.map((member) => {
                 if (!member.user.bot && member.roles.cache.has(config.roleID)) {
                     userIds[member.id] = member.displayName;
+                }
+                else if (!member.roles.cache.has(config.roleID)) {
+                    nonFractionuserIds[member.id] = member.displayName;
                 }
             });
 
 
             const onlineFrakcioTagok = {}
+            const onlineNemFrakcioTagok = {}
 
             for (const key in userIds) {
                 if (outputObject.hasOwnProperty(key)) {
@@ -75,6 +80,19 @@ function RequestStatus() {
             for (const users in onlineFrakcioTagok) {
                 frakcioTagokKiiras.push(
                     users + " | " + onlineFrakcioTagok[users].name + " | " + onlineFrakcioTagok[users].id
+                );
+            }
+
+            for (const key in nonFractionuserIds) {
+                if (outputObject.hasOwnProperty(key)) {
+                    onlineNemFrakcioTagok[nonFractionuserIds[key]] = outputObject[key];
+                }
+            }
+
+            var nemFrakcioTagokKiiras = [];
+            for (const users in onlineNemFrakcioTagok) {
+                nemFrakcioTagokKiiras.push(
+                    users + " | " + onlineNemFrakcioTagok[users].name + " | " + onlineNemFrakcioTagok[users].id
                 );
             }
 
@@ -123,12 +141,25 @@ function RequestStatus() {
                 )} else {
                     serverStatusEmbed.addFields(
                         {
-                            name: "Online frakció tagok:",
+                            name: "Frakció tagok:",
                             value: "```Nincs online frakció tag!```",
                             inline: true,
                         }
                     )
                 }
+                if(nemFrakcioTagokKiiras.length != 0) {
+
+                    serverStatusEmbed.addFields(
+                        {
+                            name:
+                                "Nem frakció tagok: " +
+                                nemFrakcioTagokKiiras.length,
+                            value:
+                                "```" +
+                                nemFrakcioTagokKiiras.join("\n") +
+                                "```",
+                        }
+                    )}
 
             statusChannel.messages.fetch({ limit: 10 }).then((messages) => {
                 if (messages.size === 0) {
