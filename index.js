@@ -25,13 +25,13 @@ client.once(Events.ClientReady, readyClient => {
     statusChannel = client.channels.cache.get(config.statusChannel)
 
     RequestStatus()
-    setInterval(RequestStatus, 60*1000);
+    setInterval(RequestStatus, 10*1000);
 
 });
 
 
 function RequestStatus() {
-    const server = new FiveM.Server(config.serverIP, config.serverPort, 'ERROR', { timeout: 5000 })
+    const server = new FiveM.Server(config.serverIP, config.serverPort, 'Hiba', { timeout: 5000 })
 
     Promise.all([server.getServerStatus(), server.getPlayers(), server.getMaxPlayers(), server.getPlayersAll(), server.getResources()])
         .then(([serverStatus, players, maxPlayers, playersAll, resources]) => {
@@ -57,7 +57,7 @@ function RequestStatus() {
 
             var userIds = new Object();
             client.guilds.cache.get(config.guildID).members.cache.map((member) => {
-                if (!member.user.bot) {
+                if (!member.user.bot && member.roles.cache.has(config.roleID)) {
                     userIds[member.id] = member.displayName;
                 }
             });
@@ -143,6 +143,7 @@ function RequestStatus() {
                     });
                 }
             })
+            
         })
         .catch(error => {
             console.error(error);
